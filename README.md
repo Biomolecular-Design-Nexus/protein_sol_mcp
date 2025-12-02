@@ -6,14 +6,11 @@ MCP Server for protein solubility prediction from sequence data using protein-so
 
 ## Overview
 
-This server provides 5 tools for predicting protein solubility from FASTA sequences using a comprehensive pipeline that includes:
+This server provides a tool for predicting protein solubility from protein sequences using protein-sol:
 
-1. **FASTA Reformatting** - Validate and clean sequences
-2. **Composition Analysis** - Calculate 36 features (amino acid percentages, charge properties, pI, hydropathy, disorder propensity, entropy)
-3. **Solubility Prediction** - Apply weighted linear model based on cell-free expression data
-4. **Property Calculation** - Sliding window analysis for disorder, charge, hydropathy profiles
-5. **Profile Gathering** - Aggregate windowed profiles with predictions
+1. **Solubility Prediction** - Apply weighted linear model based on cell-free expression data
 
+It accepts sequences, fasta, or csv as file input formats.
 
 ## Installation
 
@@ -22,13 +19,15 @@ This server provides 5 tools for predicting protein solubility from FASTA sequen
 mamba env create -p ./env python=3.10 pip -y
 mamba activate ./env
 
-pip install pandas loguru biopython matplotlib
+pip install pandas loguru sniffio
 pip install --ignore-installed fastmcp
 ```
 
 ## Local usage
 ### 1. Protein solubility prediction
-
+```shell
+python scripts/protein_sol_predict.py scripts/protein-sol/example.fasta
+```
 ## MCP Usage
 
 ### Install ProteinSol MCP Server
@@ -39,5 +38,8 @@ fastmcp install gemini-cli mcp-servers/protein_sol_mcp/src/protein_sol_mcp.py --
 
 ### Call ProteinSol MCP service
 1. Predict protein solubility with Protein-Sol
+```markdown
+Can you predict the solubility for @examples/case2.1_subtilisin/data.csv  using protein_sol mcp? 
 
-2. Analyze the regions of soubility propensity
+Please convert the relative path to absolution path before calling the MCP servers. 
+```

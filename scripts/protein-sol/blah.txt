@@ -782,3 +782,148 @@ KDnorm for x is 0.5
 KDnorm for D is 0.111111111111111
 KDnorm for s is 0.411111111111111
 KDnorm for Y is 0.355555555555556
+
+TM REGION PREDICTED for >sp|P61626|LYSC_HUMAN - with non-normalised KD of   1.78 compared with threshold of 1.6
+
+HIS will be set at charge 0
+
+column o/p file for each sequence = no - set with extra_output env variable
+
+KDnorm for n is 0.111111111111111
+KDnorm for f is 0.811111111111111
+KDnorm for r is 0
+KDnorm for v is 0.966666666666667
+KDnorm for C is 0.777777777777778
+KDnorm for m is 0.711111111111111
+KDnorm for g is 0.455555555555555
+KDnorm for T is 0.422222222222222
+KDnorm for h is 0.144444444444444
+KDnorm for M is 0.711111111111111
+KDnorm for W is 0.4
+KDnorm for p is 0.322222222222222
+KDnorm for d is 0.111111111111111
+KDnorm for i is 1
+KDnorm for k is 0.0666666666666667
+KDnorm for X is 0.5
+KDnorm for V is 0.966666666666667
+KDnorm for F is 0.811111111111111
+KDnorm for I is 1
+KDnorm for q is 0.111111111111111
+KDnorm for H is 0.144444444444444
+KDnorm for w is 0.4
+KDnorm for t is 0.422222222222222
+KDnorm for R is 0
+KDnorm for Y is 0.355555555555556
+KDnorm for Q is 0.111111111111111
+KDnorm for K is 0.0666666666666667
+KDnorm for s is 0.411111111111111
+KDnorm for e is 0.111111111111111
+KDnorm for P is 0.322222222222222
+KDnorm for G is 0.455555555555555
+KDnorm for E is 0.111111111111111
+KDnorm for a is 0.7
+KDnorm for A is 0.7
+KDnorm for x is 0.5
+KDnorm for S is 0.411111111111111
+KDnorm for c is 0.777777777777778
+KDnorm for y is 0.355555555555556
+KDnorm for D is 0.111111111111111
+KDnorm for N is 0.111111111111111
+KDnorm for l is 0.922222222222222
+KDnorm for L is 0.922222222222222
+
+TM REGION PREDICTED for >sp|P61626|LYSC_HUMAN - with non-normalised KD of   1.78 compared with threshold of 1.6
+
+HIS will be set at charge 0
+
+column o/p file for each sequence = no - set with extra_output env variable
+
+KDnorm for p is 0.322222222222222
+KDnorm for S is 0.411111111111111
+KDnorm for C is 0.777777777777778
+KDnorm for I is 1
+KDnorm for x is 0.5
+KDnorm for k is 0.0666666666666667
+KDnorm for T is 0.422222222222222
+KDnorm for F is 0.811111111111111
+KDnorm for W is 0.4
+KDnorm for L is 0.922222222222222
+KDnorm for m is 0.711111111111111
+KDnorm for d is 0.111111111111111
+KDnorm for R is 0
+KDnorm for P is 0.322222222222222
+KDnorm for g is 0.455555555555555
+KDnorm for r is 0
+KDnorm for V is 0.966666666666667
+KDnorm for v is 0.966666666666667
+KDnorm for t is 0.422222222222222
+KDnorm for i is 1
+KDnorm for D is 0.111111111111111
+KDnorm for s is 0.411111111111111
+KDnorm for a is 0.7
+KDnorm for A is 0.7
+KDnorm for e is 0.111111111111111
+KDnorm for Y is 0.355555555555556
+KDnorm for Q is 0.111111111111111
+KDnorm for M is 0.711111111111111
+KDnorm for H is 0.144444444444444
+KDnorm for q is 0.111111111111111
+KDnorm for l is 0.922222222222222
+KDnorm for w is 0.4
+KDnorm for X is 0.5
+KDnorm for N is 0.111111111111111
+KDnorm for c is 0.777777777777778
+KDnorm for h is 0.144444444444444
+KDnorm for y is 0.355555555555556
+KDnorm for E is 0.111111111111111
+KDnorm for G is 0.455555555555555
+KDnorm for K is 0.0666666666666667
+KDnorm for n is 0.111111111111111
+KDnorm for f is 0.811111111111111
+
+HIS will be set at charge 0
+
+column o/p file for each sequence = no - set with extra_output env variable
+
+KDnorm for h is 0.144444444444444
+KDnorm for t is 0.422222222222222
+KDnorm for K is 0.0666666666666667
+KDnorm for p is 0.322222222222222
+KDnorm for d is 0.111111111111111
+KDnorm for W is 0.4
+KDnorm for F is 0.811111111111111
+KDnorm for l is 0.922222222222222
+KDnorm for R is 0
+KDnorm for m is 0.711111111111111
+KDnorm for a is 0.7
+KDnorm for x is 0.5
+KDnorm for H is 0.144444444444444
+KDnorm for N is 0.111111111111111
+KDnorm for S is 0.411111111111111
+KDnorm for n is 0.111111111111111
+KDnorm for w is 0.4
+KDnorm for D is 0.111111111111111
+KDnorm for X is 0.5
+KDnorm for v is 0.966666666666667
+KDnorm for y is 0.355555555555556
+KDnorm for T is 0.422222222222222
+KDnorm for P is 0.322222222222222
+KDnorm for L is 0.922222222222222
+KDnorm for Q is 0.111111111111111
+KDnorm for M is 0.711111111111111
+KDnorm for k is 0.0666666666666667
+KDnorm for A is 0.7
+KDnorm for i is 1
+KDnorm for r is 0
+KDnorm for I is 1
+KDnorm for e is 0.111111111111111
+KDnorm for c is 0.777777777777778
+KDnorm for q is 0.111111111111111
+KDnorm for s is 0.411111111111111
+KDnorm for f is 0.811111111111111
+KDnorm for G is 0.455555555555555
+KDnorm for g is 0.455555555555555
+KDnorm for V is 0.966666666666667
+KDnorm for C is 0.777777777777778
+KDnorm for Y is 0.355555555555556
+KDnorm for E is 0.111111111111111
