@@ -32,8 +32,8 @@ python scripts/protein_sol_predict.py scripts/protein-sol/example.fasta
 
 ### Install ProteinSol MCP Server
 ```shell
-fastmcp install claude-code mcp-servers/protein_sol_mcp/src/protein_sol_mcp.py --python mcp-servers/protein_sol_mcp/env/bin/python
-fastmcp install gemini-cli mcp-servers/protein_sol_mcp/src/protein_sol_mcp.py --python mcp-servers/protein_sol_mcp/env/bin/python
+fastmcp install claude-code tool-mcps/protein_sol_mcp/src/protein_sol_mcp.py --python tool-mcps/protein_sol_mcp/env/bin/python
+fastmcp install gemini-cli tool-mcps/protein_sol_mcp/src/protein_sol_mcp.py --python tool-mcps/protein_sol_mcp/env/bin/python
 ```
 
 ### Call ProteinSol MCP service
