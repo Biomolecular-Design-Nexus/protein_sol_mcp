@@ -1,0 +1,28 @@
+{
+  "_description": "Configuration for protein sequence composition analysis",
+  "_source": "Extracted from examples/use_case_2_sequence_analysis.py",
+
+  "analysis": {
+    "basic_only": false,
+    "include_composition": true,
+    "include_properties": true,
+    "output_format": "txt"
+  },
+
+  "output": {
+    "composition_name": "composition_analysis.txt",
+    "properties_name": "properties_analysis.txt"
+  },
+
+  "basic_stats": {
+    "include_hydrophobic": true,
+    "include_charged": true,
+    "include_polar": true,
+    "molecular_weight_per_aa": 110
+  },
+
+  "processing": {
+    "temp_fasta_prefix": "seq_analysis_",
+    "cleanup_temp": true
+  }
+}

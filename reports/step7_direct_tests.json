@@ -1,0 +1,91 @@
+{
+  "test_date": "2025-12-20T00:19:05.556942",
+  "project_root": "/home/xux/Desktop/ProteinMCP/ProteinMCP/tool-mcps/protein_sol_mcp",
+  "tests": {
+    "data_exists_example.fasta": {
+      "status": "passed",
+      "timestamp": "2025-12-20T00:19:05.556996",
+      "details": {
+        "file_size": 535,
+        "path": "/home/xux/Desktop/ProteinMCP/ProteinMCP/tool-mcps/protein_sol_mcp/examples/data/example.fasta"
+      }
+    },
+    "data_exists_small_test.fasta": {
+      "status": "passed",
+      "timestamp": "2025-12-20T00:19:05.557026",
+      "details": {
+        "file_size": 156,
+        "path": "/home/xux/Desktop/ProteinMCP/ProteinMCP/tool-mcps/protein_sol_mcp/examples/data/small_test.fasta"
+      }
+    },
+    "predict_solubility_small": {
+      "status": "passed",
+      "timestamp": "2025-12-20T00:19:05.981954",
+      "details": {
+        "execution_time": "0.09s",
+        "output_files": [],
+        "has_result": false
+      }
+    },
+    "predict_solubility_example": {
+      "status": "passed",
+      "timestamp": "2025-12-20T00:19:06.258135",
+      "details": {
+        "execution_time": "0.28s",
+        "output_files": []
+      }
+    },
+    "analyze_sequence_single": {
+      "status": "passed",
+      "timestamp": "2025-12-20T00:19:06.258938",
+      "details": {
+        "execution_time": "0.00s",
+        "analysis_keys": [
+          "basic_stats",
+          "mode"
+        ]
+      }
+    },
+    "analyze_sequence_file": {
+      "status": "passed",
+      "timestamp": "2025-12-20T00:19:06.259105",
+      "details": {
+        "execution_time": "0.00s",
+        "result_type": "dict"
+      }
+    },
+    "job_manager_list": {
+      "status": "passed",
+      "timestamp": "2025-12-20T00:19:06.297654",
+      "details": {
+        "total_jobs": 1,
+        "status": "success"
+      }
+    },
+    "job_manager_submit": {
+      "status": "passed",
+      "timestamp": "2025-12-20T00:19:08.300921",
+      "details": {
+        "job_id": "6476f933",
+        "submit_status": "submitted",
+        "job_status": "completed"
+      }
+    },
+    "error_handling_file": {
+      "status": "passed",
+      "timestamp": "2025-12-20T00:19:08.301056",
+      "details": {
+        "error_caught": true,
+        "exception_type": "FileNotFoundError"
+      }
+    }
+  },
+  "issues": [],
+  "summary": {
+    "total_tests": 9,
+    "passed": 9,
+    "failed": 0,
+    "errors": 0,
+    "pass_rate": "100.0%"
+  }
+}

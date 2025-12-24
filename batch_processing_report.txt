@@ -1,0 +1,15 @@
+Batch Processing Report
+========================
+
+Files Processed: 2
+Successful: 2
+Failed: 0
+Success Rate: 100.0%
+
+Total Processing Time: 0.37 seconds
+Average Time per File: 0.19 seconds
+
+Detailed Results:
+
+✅ examples/data/small_test.fasta (0.10s)
+✅ examples/data/example.fasta (0.28s)

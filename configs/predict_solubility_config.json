@@ -1,0 +1,23 @@
+{
+  "_description": "Configuration for protein solubility prediction",
+  "_source": "Extracted from examples/use_case_1_predict_solubility.py",
+
+  "prediction": {
+    "show_results": false,
+    "cleanup_temp": true,
+    "output_format": "csv",
+    "include_detailed": true
+  },
+
+  "output": {
+    "csv_name": "solubility_results.csv",
+    "prediction_name": "detailed_prediction.txt",
+    "composition_name": "composition.txt",
+    "log_name": "prediction.log"
+  },
+
+  "processing": {
+    "timeout_seconds": 300,
+    "temp_dir_prefix": "protein_sol_"
+  }
+}

@@ -1,0 +1,72 @@
+{
+  "test_date": "2025-12-20T00:22:09.193461",
+  "scenarios": {
+    "Simple Protein Analysis": {
+      "status": "passed",
+      "timestamp": "2025-12-20T00:22:09.571568",
+      "details": {
+        "analysis_time": "0.00s",
+        "solubility_time": "0.09s",
+        "total_time": "0.09s",
+        "analysis_valid": true,
+        "solubility_valid": true,
+        "files_processed": 1
+      }
+    },
+    "Job Submission Workflow": {
+      "status": "passed",
+      "timestamp": "2025-12-20T00:22:11.604201",
+      "details": {
+        "job_id": "7ea8d8d2",
+        "final_status": "completed",
+        "status_checks": 2,
+        "wait_time": "2s",
+        "results_obtained": true,
+        "log_lines": 2
+      }
+    },
+    "Concurrent Jobs": {
+      "status": "passed",
+      "timestamp": "2025-12-20T00:22:14.612791",
+      "details": {
+        "jobs_submitted": 3,
+        "completed": 2,
+        "failed": 1,
+        "total_wait_time": "3s",
+        "final_statuses": [
+          "completed",
+          "completed",
+          "failed"
+        ]
+      }
+    },
+    "Error Recovery": {
+      "status": "passed",
+      "timestamp": "2025-12-20T00:22:16.616617",
+      "details": {
+        "file_error_handled": true,
+        "invalid_id_handled": true,
+        "script_error_handled": true,
+        "all_errors_handled": true
+      }
+    },
+    "Performance Test": {
+      "status": "passed",
+      "timestamp": "2025-12-20T00:22:16.960735",
+      "details": {
+        "avg_analysis_time": "0.00s",
+        "avg_prediction_time": "0.11s",
+        "analysis_meets_criteria": true,
+        "prediction_meets_criteria": true,
+        "test_runs": 3
+      }
+    }
+  },
+  "issues": [],
+  "summary": {
+    "total_scenarios": 5,
+    "passed": 5,
+    "failed": 0,
+    "pass_rate": "100.0%"
+  }
+}

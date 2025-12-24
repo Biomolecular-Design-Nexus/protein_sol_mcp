@@ -1,0 +1,193 @@
+{
+  "project_name": "protein-sol",
+  "description": "Comprehensive protein solubility prediction and sequence analysis through Model Context Protocol",
+  "tools": [
+    {
+      "name": "predict_protein_solubility",
+      "type": "sync",
+      "description": "Predict protein solubility from FASTA sequences using protein-sol pipeline",
+      "example_prompt": "Use predict_protein_solubility with input_file @examples/data/example.fasta and show_results True",
+      "runtime": "~30 sec - 2 min",
+      "parameters": ["input_file", "output_file", "show_results"]
+    },
+    {
+      "name": "analyze_protein_sequence",
+      "type": "sync",
+      "description": "Analyze amino acid composition and physicochemical properties",
+      "example_prompt": "Use analyze_protein_sequence with sequence \"MVKVYAPASSANMSVGFDVL\" and sequence_id \"test_protein\"",
+      "runtime": "~5-30 sec",
+      "parameters": ["input_file", "sequence", "sequence_id", "output_file", "basic_only"]
+    },
+    {
+      "name": "submit_batch_predict_solubility",
+      "type": "submit",
+      "description": "Submit batch protein solubility prediction for background processing",
+      "example_prompt": "Submit batch_predict_solubility with input_path @examples/data/ and max_workers 4",
+      "runtime": ">10 min",
+      "parameters": ["input_path", "input_files", "output_dir", "max_workers", "job_name"]
+    },
+    {
+      "name": "submit_large_solubility_prediction",
+      "type": "submit",
+      "description": "Submit large-scale protein solubility prediction for background processing",
+      "example_prompt": "Submit large_solubility_prediction with input_file @examples/data/example.fasta",
+      "runtime": ">10 min",
+      "parameters": ["input_file", "output_file", "job_name"]
+    },
+    {
+      "name": "submit_full_sequence_analysis",
+      "type": "submit",
+      "description": "Submit comprehensive sequence analysis using Perl pipeline",
+      "example_prompt": "Submit full_sequence_analysis with input_file @examples/data/example.fasta",
+      "runtime": ">10 min",
+      "parameters": ["input_file", "sequence", "sequence_id", "output_file", "job_name"]
+    },
+    {
+      "name": "get_job_status",
+      "type": "job_management",
+      "description": "Get the status of a submitted job",
+      "example_prompt": "Use get_job_status with job_id \"abc123\"",
+      "runtime": "immediate",
+      "parameters": ["job_id"]
+    },
+    {
+      "name": "get_job_result",
+      "type": "job_management",
+      "description": "Get the results of a completed job",
+      "example_prompt": "Use get_job_result with job_id \"abc123\"",
+      "runtime": "immediate",
+      "parameters": ["job_id"]
+    },
+    {
+      "name": "get_job_log",
+      "type": "job_management",
+      "description": "Get log output from a running or completed job",
+      "example_prompt": "Use get_job_log with job_id \"abc123\" and tail 50",
+      "runtime": "immediate",
+      "parameters": ["job_id", "tail"]
+    },
+    {
+      "name": "cancel_job",
+      "type": "job_management",
+      "description": "Cancel a running job",
+      "example_prompt": "Use cancel_job with job_id \"abc123\"",
+      "runtime": "immediate",
+      "parameters": ["job_id"]
+    },
+    {
+      "name": "list_jobs",
+      "type": "job_management",
+      "description": "List all submitted jobs",
+      "example_prompt": "Use list_jobs to see all jobs or list_jobs with status \"running\"",
+      "runtime": "immediate",
+      "parameters": ["status"]
+    }
+  ],
+  "scripts": [
+    {
+      "name": "predict_solubility.py",
+      "description": "Predict protein solubility from FASTA sequences",
+      "example_command": "python scripts/predict_solubility.py --input examples/data/example.fasta --output my_results --show-results"
+    },
+    {
+      "name": "analyze_sequence.py",
+      "description": "Analyze amino acid composition and physicochemical properties",
+      "example_command": "python scripts/analyze_sequence.py --sequence \"MVKVYAPASSANMSVGFDVL\" --id \"MyProtein\" --basic-only"
+    },
+    {
+      "name": "batch_predict.py",
+      "description": "Process multiple FASTA files in parallel",
+      "example_command": "python scripts/batch_predict.py --input examples/data/ --output batch_results --workers 4"
+    }
+  ],
+  "demo_data": [
+    {
+      "file": "example.fasta",
+      "description": "Original demo with 2 proteins (P00547, LYSC_HUMAN)",
+      "used_by": ["predict_protein_solubility", "analyze_protein_sequence", "submit_batch_predict_solubility"],
+      "content": "535 bytes, 2 protein sequences"
+    },
+    {
+      "file": "small_test.fasta",
+      "description": "Quick test with 2 short proteins for fast testing",
+      "used_by": ["predict_protein_solubility", "analyze_protein_sequence"],
+      "content": "156 bytes, Test_Protein_1, Test_Protein_2"
+    },
+    {
+      "file": "example.fasta-protein_sol.csv",
+      "description": "Example CSV prediction output format",
+      "used_by": ["Understanding output format"],
+      "content": "CSV with ID, sequence, percent-sol, scaled-sol, population-sol, pI"
+    },
+    {
+      "file": "example.fasta-protein_sol_prediction.txt",
+      "description": "Example detailed prediction with 35 features",
+      "used_by": ["Understanding detailed output"],
+      "content": "Detailed analysis with profiles and features"
+    },
+    {
+      "file": "seq_reference_data.txt",
+      "description": "Reference solubility data for pipeline validation",
+      "used_by": ["Pipeline dependencies"],
+      "content": "4544 bytes, experimental solubility data"
+    },
+    {
+      "file": "ss_propensities.txt",
+      "description": "Secondary structure propensities data",
+      "used_by": ["Pipeline dependencies"],
+      "content": "1037 bytes, structure propensities"
+    }
+  ],
+  "configs": [
+    {
+      "file": "predict_solubility_config.json",
+      "description": "Solubility prediction settings",
+      "parameters": {
+        "prediction": {"show_results": false, "cleanup_temp": true},
+        "output": {"csv_name": "solubility_results.csv"},
+        "processing": {"timeout_seconds": 300}
+      }
+    },
+    {
+      "file": "analyze_sequence_config.json",
+      "description": "Sequence analysis settings",
+      "parameters": {
+        "analysis": {"basic_only": false, "include_composition": true},
+        "basic_stats": {"molecular_weight_per_aa": 110},
+        "processing": {"cleanup_temp": true}
+      }
+    },
+    {
+      "file": "batch_predict_config.json",
+      "description": "Batch processing settings",
+      "parameters": {
+        "parallel": {"max_workers": 2, "timeout_per_file": 300},
+        "processing": {"continue_on_error": true, "generate_report": true},
+        "file_discovery": {"fasta_extensions": ["*.fasta", "*.fa"]}
+      }
+    },
+    {
+      "file": "default_config.json",
+      "description": "General settings",
+      "parameters": {
+        "general": {"cleanup_temp_files": true, "verbose_output": false},
+        "validation": {"min_sequence_length": 10, "max_sequence_length": 10000}
+      }
+    }
+  ],
+  "installation": {
+    "environment_path": "./env",
+    "python_version": "3.10.19",
+    "package_manager": "mamba (preferred) or conda",
+    "dependencies": ["python=3.10", "pandas", "fastmcp", "loguru"],
+    "external_dependencies": ["perl (system-provided)", "repo/protein-sol/ Perl scripts"]
+  },
+  "mcp_integration": {
+    "server_path": "src/server.py",
+    "install_command": "claude mcp add protein-sol -- $(pwd)/env/bin/python $(pwd)/src/server.py",
+    "total_tools": 10,
+    "sync_tools": 2,
+    "submit_tools": 3,
+    "job_management_tools": 5
+  }
+}

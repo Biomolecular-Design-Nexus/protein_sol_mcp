@@ -1,0 +1,34 @@
+{
+  "_description": "Default configuration settings for all MCP protein solubility scripts",
+  "_version": "1.0.0",
+
+  "general": {
+    "cleanup_temp_files": true,
+    "verbose_output": false,
+    "error_on_failure": true
+  },
+
+  "paths": {
+    "repo_path": "repo/protein-sol",
+    "temp_dir_prefix": "protein_mcp_",
+    "output_dir": "results"
+  },
+
+  "timeout": {
+    "default_timeout": 300,
+    "max_timeout": 1800
+  },
+
+  "validation": {
+    "check_input_exists": true,
+    "validate_sequences": true,
+    "min_sequence_length": 10,
+    "max_sequence_length": 10000
+  },
+
+  "output": {
+    "include_metadata": true,
+    "timestamp_format": "%Y-%m-%d %H:%M:%S",
+    "decimal_places": 3
+  }
+}

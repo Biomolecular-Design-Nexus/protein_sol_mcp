@@ -1,0 +1,7 @@
+{
+  "setup_commands": [
+    "(command -v mamba >/dev/null 2>&1 && mamba create -p ./env python=3.10 pandas -y) || (command -v conda >/dev/null 2>&1 && conda create -p ./env python=3.10 pandas -y) || (echo \"Warning: Neither mamba nor conda found, creating venv instead\" && python3 -m venv ./env && ./env/bin/pip install pandas)",
+    "./env/bin/pip install fastmcp loguru",
+    "./env/bin/pip install --ignore-installed fastmcp"
+  ]
+}

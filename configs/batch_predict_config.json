@@ -1,0 +1,31 @@
+{
+  "_description": "Configuration for batch protein solubility prediction",
+  "_source": "Extracted from examples/use_case_3_batch_prediction.py",
+
+  "parallel": {
+    "max_workers": 2,
+    "timeout_per_file": 300
+  },
+
+  "processing": {
+    "continue_on_error": true,
+    "cleanup_temp": true,
+    "generate_report": true
+  },
+
+  "file_discovery": {
+    "fasta_extensions": ["*.fasta", "*.fa", "*.fas", "*.faa", "*.seq"],
+    "recursive_search": true
+  },
+
+  "output": {
+    "report_filename": "batch_processing_report.txt",
+    "include_timestamps": true,
+    "include_error_details": true
+  },
+
+  "performance": {
+    "chunk_size": 10,
+    "progress_updates": true
+  }
+}
