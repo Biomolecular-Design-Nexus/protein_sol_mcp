@@ -18,11 +18,9 @@
 The protein-sol MCP server provides comprehensive protein solubility prediction and sequence analysis capabilities based on the University of Manchester protein-sol pipeline. It implements the research by Hebditch et al (2017) Bioinformatics 33:3098-3100, offering both quick analysis tools and scalable batch processing through the Model Context Protocol.
 
 ### Features
-- **Protein solubility prediction** from amino acid sequences using machine learning models
-- **Sequence composition analysis** with physicochemical property calculations
-- **Batch processing** of multiple FASTA files with parallel execution
-- **Real-time job management** for long-running tasks with progress tracking
-- **Dual API design** with synchronous (immediate) and asynchronous (submit) operations
+- **Protein solubility prediction** from amino acid sequences using the Hebditch et al (2017) algorithm
+- **Flexible input support**: sequence strings, FASTA files, or CSV files
+- **Automatic output generation**: CSV results, detailed predictions, composition analysis
 
 ### Directory Structure
 ```
@@ -31,17 +29,12 @@ The protein-sol MCP server provides comprehensive protein solubility prediction 
 ├── env/                    # Conda environment (Python 3.10.19)
 ├── src/
 │   ├── server.py           # MCP server entry point
-│   ├── jobs/               # Job management system
-│   └── tools/              # Tool organization
+│   └── tools/              # Tool implementations
 ├── scripts/
-│   ├── predict_solubility.py  # Solubility prediction wrapper
-│   ├── analyze_sequence.py    # Sequence analysis wrapper
-│   ├── batch_predict.py       # Batch processing wrapper
+│   ├── protein_sol_predict.py # Core prediction script
 │   └── lib/                    # Shared utilities
 ├── examples/
 │   └── data/               # Demo FASTA files and results
-├── configs/                # JSON configuration templates
-├── jobs/                   # Job execution workspace (created at runtime)
 └── repo/                   # Original protein-sol Perl pipeline
 ```
 
@@ -98,95 +91,25 @@ perl repo/protein-sol/server_prediction_seq_export.pl
 
 ---
 
-## Local Usage (Scripts)
+## Local Usage (Script)
 
-You can use the scripts directly without MCP for local processing.
+You can use the prediction script directly without MCP for local processing.
 
-### Available Scripts
-
-| Script | Description | Example |
-|--------|-------------|---------|
-| `scripts/predict_solubility.py` | Predict protein solubility from FASTA | See below |
-| `scripts/analyze_sequence.py` | Analyze sequence composition and properties | See below |
-| `scripts/batch_predict.py` | Process multiple files in parallel | See below |
-
-### Script Examples
-
-#### Protein Solubility Prediction
+### Protein Solubility Prediction
 
 ```bash
 # Activate environment
 mamba activate ./env
 
-# Basic prediction with show results
-python scripts/predict_solubility.py \
-  --input examples/data/example.fasta \
-  --output my_results \
-  --show-results
-
-# Quick prediction without output display
-python scripts/predict_solubility.py \
-  --input examples/data/small_test.fasta
+# Run prediction on a FASTA file
+python scripts/protein_sol_predict.py examples/data/example.fasta
 ```
 
-**Parameters:**
-- `--input, -i`: Path to input FASTA file (required)
-- `--output, -o`: Output file prefix (default: based on input filename)
-- `--show-results`: Display prediction summary in terminal (optional)
-
-**Expected Output:**
-- `{prefix}_solubility_results.csv` - Main prediction results with percentages
-- `{prefix}_detailed_prediction.txt` - 35 sequence features and profiles
-- `{prefix}_composition.txt` - Amino acid composition analysis
-- `{prefix}_prediction.log` - Processing logs and diagnostics
-
-#### Sequence Analysis
-
-```bash
-# Basic analysis (fast, no external dependencies)
-python scripts/analyze_sequence.py \
-  --sequence "MVKVYAPASSANMSVGFDVL" \
-  --id "MyProtein" \
-  --basic-only
-
-# Full analysis of FASTA file (requires Perl pipeline)
-python scripts/analyze_sequence.py \
-  --input examples/data/example.fasta \
-  --output detailed_analysis
-
-# Single sequence full analysis
-python scripts/analyze_sequence.py \
-  --sequence "MKALIVLGLVLLSVTVQGKVFERCELARTLKRLGMDGYRGISLANWMCLAKWESGYNTRATNYNAGDRSTDYGIFQINSRYWCNDGKTPGAVNACHLSCSALLQDNIADAVACAKRVVRDPQGIRAWVAWRNRCQNRDVRQYVQGCGV" \
-  --id "LYSC_HUMAN"
-```
-
-**Parameters:**
-- `--input, -i`: Path to input FASTA file (alternative to sequence)
-- `--sequence, -s`: Single protein sequence string (alternative to input)
-- `--id`: Sequence identifier for single sequence (required with --sequence)
-- `--output, -o`: Output file prefix (optional)
-- `--basic-only`: Fast analysis without external dependencies (optional)
-
-#### Batch Processing
-
-```bash
-# Process all FASTA files in a directory
-python scripts/batch_predict.py \
-  --input examples/data/ \
-  --output batch_results \
-  --workers 4
-
-# Process specific files
-python scripts/batch_predict.py \
-  --files examples/data/example.fasta examples/data/small_test.fasta \
-  --workers 2
-```
-
-**Parameters:**
-- `--input, -i`: Directory containing FASTA files (alternative to --files)
-- `--files`: List of specific FASTA files to process (alternative to --input)
-- `--output, -o`: Output directory for results (default: batch_results/)
-- `--workers, -w`: Number of parallel workers (default: 2)
+**Expected Output Files:**
+- `{input}-protein_sol.csv` - Main prediction results
+- `{input}-protein_sol_prediction.txt` - Detailed prediction with 35 features
+- `{input}-protein_sol_composition.txt` - Amino acid composition analysis
+- `{input}-protein_sol.log` - Processing logs
 
 ---
 
@@ -196,18 +119,18 @@ python scripts/batch_predict.py \
 
 ```bash
 # Install MCP server for Claude Code
-fastmcp install src/server.py --name protein-sol
+fastmcp install src/server.py --name protein_sol_mcp
 ```
 
 ### Option 2: Manual Installation for Claude Code
 
 ```bash
 # Add MCP server to Claude Code
-claude mcp add protein-sol -- $(pwd)/env/bin/python $(pwd)/src/server.py
+claude mcp add protein_sol_mcp -- $(pwd)/env/bin/python $(pwd)/src/server.py
 
 # Verify installation
 claude mcp list
-# Should show: protein-sol: /path/to/env/bin/python /path/to/src/server.py - ✓ Connected
+# Should show: protein_sol_mcp: /path/to/env/bin/python /path/to/src/server.py - ✓ Connected
 ```
 
 ### Option 3: Configure in settings.json
@@ -217,7 +140,7 @@ Add to `~/.claude/settings.json`:
 ```json
 {
   "mcpServers": {
-    "protein-sol": {
+    "protein_sol_mcp": {
       "command": "/home/xux/Desktop/ProteinMCP/ProteinMCP/tool-mcps/protein_sol_mcp/env/bin/python",
       "args": ["/home/xux/Desktop/ProteinMCP/ProteinMCP/tool-mcps/protein_sol_mcp/src/server.py"]
     }
@@ -242,36 +165,22 @@ claude
 
 #### Tool Discovery
 ```
-What tools are available from protein-sol?
+What tools are available from protein_sol_mcp?
 ```
 
-#### Basic Usage
+#### Using a Sequence String
 ```
-Use predict_protein_solubility with input file @examples/data/example.fasta and show_results True
-```
-
-#### Sequence Analysis
-```
-Use analyze_protein_sequence with sequence "MVKVYAPASSANMSVGFDVL" and sequence_id "test_protein"
+Use protein_sol_solubility_predict with sequence "MKLLLLLLLLLLLLLLLLLLLLLLLLLLLL" and sequence_id "test_protein"
 ```
 
-#### With Configuration
+#### Using a FASTA File
 ```
-Predict solubility for @examples/data/small_test.fasta and show me the results
-```
-
-#### Long-Running Tasks (Submit API)
-```
-Submit batch_predict_solubility for all FASTA files in @examples/data/ using 4 workers
-Then check the job status and show me the logs
+Use protein_sol_solubility_predict with fasta_file @examples/data/example.fasta
 ```
 
-#### Batch Processing
+#### Using a CSV File
 ```
-Process these files in batch using submit_batch_predict_solubility:
-- @examples/data/example.fasta
-- @examples/data/small_test.fasta
-Use 2 workers and track the progress
+Use protein_sol_solubility_predict with csv_file @data/proteins.csv and sequence_column "protein_seq"
 ```
 
 ### Using @ References
@@ -281,8 +190,7 @@ In Claude Code, use `@` to reference files and directories:
 | Reference | Description |
 |-----------|-------------|
 | `@examples/data/example.fasta` | Reference a specific FASTA file |
-| `@configs/predict_solubility_config.json` | Reference a config file |
-| `@examples/data/` | Reference the demo data directory |
+| `@examples/data/small_test.fasta` | Reference demo test file |
 
 ---
 
@@ -295,7 +203,7 @@ Add to `~/.gemini/settings.json`:
 ```json
 {
   "mcpServers": {
-    "protein-sol": {
+    "protein_sol_mcp": {
       "command": "/home/xux/Desktop/ProteinMCP/ProteinMCP/tool-mcps/protein_sol_mcp/env/bin/python",
       "args": ["/home/xux/Desktop/ProteinMCP/ProteinMCP/tool-mcps/protein_sol_mcp/src/server.py"]
     }
@@ -310,157 +218,86 @@ Add to `~/.gemini/settings.json`:
 gemini
 
 # Example prompts (same as Claude Code)
-> What tools are available from protein-sol?
-> Use predict_protein_solubility with file examples/data/example.fasta
-> Submit a batch job for examples/data/ directory using submit_batch_predict_solubility
+> What tools are available from protein_sol_mcp?
+> Use protein_sol_solubility_predict with fasta_file examples/data/example.fasta
 ```
 
 ---
 
 ## Available Tools
 
-### Quick Operations (Sync API)
+### protein_sol_solubility_predict
 
-These tools return results immediately (< 10 minutes):
+Run complete automated protein solubility prediction pipeline using the Hebditch et al (2017) algorithm.
 
-| Tool | Description | Parameters | Est. Runtime |
-|------|-------------|------------|--------------|
-| `predict_protein_solubility` | Predict solubility from FASTA | `input_file`, `output_file`, `show_results` | ~30 sec - 2 min |
-| `analyze_protein_sequence` | Analyze sequence composition | `input_file`, `sequence`, `sequence_id`, `output_file`, `basic_only` | ~5-30 sec |
+**Parameters:**
 
-### Long-Running Tasks (Submit API)
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `sequence` | string | One of three | Protein sequence string (amino acids) |
+| `fasta_file` | string | One of three | Path to input FASTA file |
+| `csv_file` | string | One of three | Path to CSV file containing sequences |
+| `sequence_column` | string | No | Column name for sequences in CSV (default: "sequence") |
+| `id_column` | string | No | Column name for sequence IDs in CSV |
+| `sequence_id` | string | No | ID for sequence when using `sequence` parameter (default: "protein") |
+| `quiet` | bool | No | Suppress detailed console output (default: False) |
 
-These tools return a job_id for tracking (> 10 minutes):
+**Input Options** (mutually exclusive - provide exactly one):
+- `sequence`: Direct protein sequence string
+- `fasta_file`: Path to FASTA file
+- `csv_file`: Path to CSV file (will create augmented output with predictions)
 
-| Tool | Description | Parameters | Est. Runtime |
-|------|-------------|------------|--------------|
-| `submit_batch_predict_solubility` | Batch process multiple files | `input_path`, `input_files`, `output_dir`, `max_workers`, `job_name` | >10 min |
-| `submit_large_solubility_prediction` | Large-scale prediction | `input_file`, `output_file`, `job_name` | >10 min |
-| `submit_full_sequence_analysis` | Full sequence analysis | `input_file`, `sequence`, `sequence_id`, `output_file`, `job_name` | >10 min |
+**Returns:**
 
-### Job Management Tools
-
-| Tool | Description | Parameters |
-|------|-------------|------------|
-| `get_job_status` | Check job progress | `job_id` |
-| `get_job_result` | Get results when completed | `job_id` |
-| `get_job_log` | View execution logs | `job_id`, `tail` |
-| `cancel_job` | Cancel running job | `job_id` |
-| `list_jobs` | List all jobs | `status` (optional) |
+| Field | Description |
+|-------|-------------|
+| `success` | Boolean indicating if prediction succeeded |
+| `predictions` | List of prediction results with ID, sequence, percent_sol, scaled_sol, population_sol, pI |
+| `output_files` | Dictionary of generated file paths (csv, prediction, composition, log) |
+| `error` | Error message if prediction failed |
 
 ---
 
 ## Examples
 
-### Example 1: Quick Protein Analysis
+### Example 1: Predict from Sequence String
 
-**Goal:** Analyze a protein sequence for basic properties and predict its solubility
-
-**Using Script:**
-```bash
-# First analyze the sequence composition
-python scripts/analyze_sequence.py \
-  --sequence "MVKVYAPASSANMSVGFDVL" \
-  --id "MyProtein" \
-  --basic-only
-
-# Then predict solubility from a FASTA file
-python scripts/predict_solubility.py \
-  --input examples/data/small_test.fasta \
-  --output quick_analysis \
-  --show-results
-```
+**Goal:** Predict solubility from a protein sequence
 
 **Using MCP (in Claude Code):**
 ```
-First, use analyze_protein_sequence with sequence "MVKVYAPASSANMSVGFDVL" and sequence_id "MyProtein" and basic_only True
-
-Then use predict_protein_solubility with input_file @examples/data/small_test.fasta and show_results True
+Use protein_sol_solubility_predict with sequence "MKLLLLLLLLLLLLLLLLLLLLLLLLLLLL" and sequence_id "test_protein"
 ```
 
 **Expected Output:**
-- Basic sequence statistics: length, hydrophobic percentage, charged percentage
-- Solubility predictions: percentage solubility, scaled scores, isoelectric point
+- Solubility predictions: percent-sol, scaled-sol, population-sol, pI
+- Output files: CSV results, prediction details, composition analysis
 
-### Example 2: Comprehensive File Analysis
+### Example 2: Predict from FASTA File
 
-**Goal:** Perform complete analysis of protein sequences from a FASTA file
-
-**Using Script:**
-```bash
-# Full sequence analysis with composition details
-python scripts/analyze_sequence.py \
-  --input examples/data/example.fasta \
-  --output comprehensive_analysis
-
-# Solubility prediction with detailed output
-python scripts/predict_solubility.py \
-  --input examples/data/example.fasta \
-  --output detailed_prediction
-```
+**Goal:** Predict solubility for all sequences in a FASTA file
 
 **Using MCP (in Claude Code):**
 ```
-Use analyze_protein_sequence with input_file @examples/data/example.fasta and basic_only False to get full composition analysis
-
-Then use predict_protein_solubility with input_file @examples/data/example.fasta and show_results True
+Use protein_sol_solubility_predict with fasta_file @examples/data/example.fasta
 ```
 
 **Expected Output:**
-- Detailed amino acid composition analysis
-- Physicochemical properties profiles
-- Solubility predictions with 35 sequence features
-- Hydropathy, entropy, and charge profiles
+- Predictions for each sequence in the FASTA file
+- Output files saved alongside input file
 
-### Example 3: Batch Processing
+### Example 3: Process CSV with Sequences
 
-**Goal:** Process multiple protein files at once with progress tracking
-
-**Using Script:**
-```bash
-# Process all FASTA files in the examples directory
-python scripts/batch_predict.py \
-  --input examples/data/ \
-  --output batch_results \
-  --workers 4
-```
+**Goal:** Add solubility predictions to an existing CSV file
 
 **Using MCP (in Claude Code):**
 ```
-Submit batch_predict_solubility with input_path @examples/data/ and max_workers 4
-
-Then use get_job_status to check progress and get_job_log to see the processing details
+Use protein_sol_solubility_predict with csv_file @data/proteins.csv and sequence_column "protein_seq" and id_column "protein_id"
 ```
 
 **Expected Output:**
-- Individual prediction files for each input FASTA
-- Combined CSV with all results
-- Processing report with success rates and timing
-
-### Example 4: Long-Running Job Management
-
-**Goal:** Submit a large analysis job and monitor its progress
-
-**Using MCP (in Claude Code):**
-```
-# Submit a job
-Submit large_solubility_prediction with input_file @examples/data/example.fasta and job_name "comprehensive_analysis"
-
-# Monitor progress
-Check the job status using get_job_status
-
-# View live logs
-Show me the job logs using get_job_log with tail 50
-
-# Get final results when complete
-Get the job results using get_job_result
-```
-
-**Expected Workflow:**
-1. Job submission returns job_id immediately
-2. Status check shows: pending → running → completed
-3. Live logs show processing progress
-4. Final results include all output files and metadata
+- Original CSV augmented with prediction columns
+- Output saved as `{input}_protein_sol.csv`
 
 ---
 
@@ -476,36 +313,6 @@ The `examples/data/` directory contains sample data for testing:
 | `example.fasta-protein_sol_prediction.txt` | Example detailed prediction | Understanding detailed output | 35 features, profiles |
 | `seq_reference_data.txt` | Reference solubility data | Pipeline validation | Experimental data |
 | `ss_propensities.txt` | Secondary structure data | Pipeline dependencies | Structure propensities |
-
----
-
-## Configuration Files
-
-The `configs/` directory contains configuration templates:
-
-| Config | Description | Parameters |
-|--------|-------------|------------|
-| `predict_solubility_config.json` | Solubility prediction settings | `show_results`, `cleanup_temp`, `timeout_seconds` |
-| `analyze_sequence_config.json` | Sequence analysis settings | `basic_only`, `include_composition`, `molecular_weight_per_aa` |
-| `batch_predict_config.json` | Batch processing settings | `max_workers`, `timeout_per_file`, `continue_on_error` |
-| `default_config.json` | General settings | `cleanup_temp_files`, `verbose_output`, `min_sequence_length` |
-
-### Config Example
-
-```json
-{
-  "prediction": {
-    "show_results": true,
-    "cleanup_temp": true
-  },
-  "output": {
-    "csv_name": "solubility_results.csv"
-  },
-  "processing": {
-    "timeout_seconds": 300
-  }
-}
-```
 
 ---
 
@@ -547,8 +354,8 @@ mamba run -p ./env python scripts/predict_solubility.py --help
 claude mcp list
 
 # Re-add if needed
-claude mcp remove protein-sol
-claude mcp add protein-sol -- $(pwd)/env/bin/python $(pwd)/src/server.py
+claude mcp remove protein_sol_mcp
+claude mcp add protein_sol_mcp -- $(pwd)/env/bin/python $(pwd)/src/server.py
 ```
 
 **Problem:** Tools not working
@@ -556,50 +363,17 @@ claude mcp add protein-sol -- $(pwd)/env/bin/python $(pwd)/src/server.py
 # Test server directly
 python -c "
 from src.server import mcp
-tools = list(mcp.list_tools().keys())
-print(f'✅ Found {len(tools)} tools: {tools}')
+print(f'MCP Name: {mcp.name}')
 "
 ```
 
 **Problem:** Connection issues
 ```bash
 # Check if server starts correctly
-PYTHONPATH="./src:./scripts" ./env/bin/python src/server.py
+./env/bin/python src/server.py
 
 # Test with FastMCP dev mode
 fastmcp dev src/server.py
-```
-
-### Job Issues
-
-**Problem:** Job stuck in pending
-```bash
-# Check job directory
-ls -la jobs/
-
-# View job details
-cat jobs/<job_id>/job.log
-
-# Check job manager status
-python -c "
-from src.jobs.manager import job_manager
-print(job_manager.list_jobs())
-"
-```
-
-**Problem:** Job failed
-```
-Use get_job_log with job_id "<job_id>" and tail 100 to see error details
-```
-
-**Problem:** Jobs directory permissions
-```bash
-# Fix permissions
-mkdir -p jobs
-chmod 755 jobs
-
-# Clear stuck jobs
-rm -rf jobs/*
 ```
 
 ### Pipeline Issues
@@ -659,58 +433,15 @@ fastmcp dev src/server.py
 curl -X POST http://localhost:3000 -H "Content-Type: application/json" -d '{"jsonrpc":"2.0","id":1,"method":"tools/list"}'
 ```
 
-### Performance Monitoring
-
-```bash
-# Monitor job queue
-python -c "
-from src.jobs.manager import job_manager
-jobs = job_manager.list_jobs()
-print(f'Active jobs: {len([j for j in jobs[\"jobs\"] if j[\"status\"] in [\"pending\", \"running\"]])}')
-"
-
-# Check disk usage
-du -sh jobs/
-du -sh examples/data/
-```
-
----
-
-## Performance Guidelines
-
-### When to Use Sync vs Submit APIs
-
-**Use Sync APIs for:**
-- Single sequence analysis (basic_only=True)
-- Small FASTA files (<10 sequences)
-- Quick validation/testing
-- Interactive analysis
-
-**Use Submit APIs for:**
-- Large FASTA files (>50 sequences)
-- Batch processing multiple files
-- Long-running comprehensive analysis
-- Background processing while doing other tasks
-
-### Resource Usage
-
-- **Basic sequence analysis**: Minimal CPU, no external dependencies
-- **Solubility prediction**: Moderate CPU, requires Perl pipeline
-- **Batch processing**: CPU scales with max_workers setting
-- **Memory**: Scales with input file size, typically modest requirements (<100MB)
-
 ---
 
 ## Dependencies Summary
 
-| Tool | Perl Pipeline | External Files | Network |
-|------|---------------|----------------|---------|
-| Basic sequence analysis | ❌ No | ❌ No | ❌ No |
-| Solubility prediction | ✅ Yes | ✅ Yes | ❌ No |
-| Full sequence analysis | ✅ Yes | ✅ Yes | ❌ No |
-| Batch processing | ✅ Yes | ✅ Yes | ❌ No |
+| Component | Perl Pipeline | External Files | Network |
+|-----------|---------------|----------------|---------|
+| `protein_sol_solubility_predict` | Yes | Yes | No |
 
-**Note**: Tools requiring the Perl pipeline need the `repo/protein-sol/` directory with the original protein-sol scripts and data files (`ss_propensities.txt`, `seq_reference_data.txt`).
+**Note**: The tool requires the Perl pipeline in `scripts/protein-sol/` directory with data files (`ss_propensities.txt`, `seq_reference_data.txt`).
 
 ---
 
