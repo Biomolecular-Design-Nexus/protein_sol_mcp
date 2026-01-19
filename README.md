@@ -42,25 +42,29 @@ The protein-sol MCP server provides comprehensive protein solubility prediction 
 
 ## Installation
 
+### Quick Setup (Recommended)
+
+Run the automated setup script:
+
+```bash
+cd protein_sol_mcp
+bash quick_setup.sh
+```
+
+The script will create the conda environment, install all dependencies, and display the Claude Code configuration. See `quick_setup.sh --help` for options like `--skip-env`.
+
 ### Prerequisites
 - Conda or Mamba (mamba recommended for faster installation)
 - Python 3.10+
 - Perl 5.x (system-provided, for underlying calculations)
 
-### Create Environment
-Please follow the procedure from `reports/step3_environment.md` to setup the environment. The verified workflow is shown below:
+### Manual Installation (Alternative)
+
+If you prefer manual installation or need to customize the setup, follow `reports/step3_environment.md`:
 
 ```bash
 # Navigate to the MCP directory
 cd /home/xux/Desktop/ProteinMCP/ProteinMCP/tool-mcps/protein_sol_mcp
-
-# Determine package manager (prefer mamba over conda)
-if command -v mamba &> /dev/null; then
-    PKG_MGR="mamba"
-else
-    PKG_MGR="conda"
-fi
-echo "Using package manager: $PKG_MGR"
 
 # Create conda environment with Python 3.10 and pandas
 mamba create -p ./env python=3.10 pandas -y
